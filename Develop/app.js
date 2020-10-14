@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { prompt } = require("inquirer");
 
 function promptManager() {
     return inquirer.prompt([
@@ -39,8 +40,8 @@ function promptEmployee(){
     return inquirer.prompt([
         {
             type: "list",
-            name: "license",
-            message: "What kind of license should your project have?",
+            name: "add",
+            message: "What team member would you like to add?",
             choices: ["Engineer", "Intern", "I don't want to add more members"]
         }
     ])
@@ -94,6 +95,31 @@ function promptIntern(){
         }
     ])
 }
+
+promptManager()
+    .then(function (managerAnswers){
+        promptEmployee()
+            .then(function(employeeAnswers){
+                if (employeeAnswers.add === "Engineer"){
+                    promptEngineer()
+                        .then(function (engineerAnswers){
+                            //do engineer stuff
+                            return;
+                        });
+                }
+                else if (employeeAnswers.add === "Intern"){
+                    promptIntern()
+                        .then(function (internAnswers){
+                            // do intern stuff
+                            return;
+                        });
+                }
+                else {
+                    //end the segement
+                }
+            });
+    
+    });
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
