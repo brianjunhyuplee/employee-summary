@@ -2,11 +2,13 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
+const util = require("util");
 const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
+const writeFileAsync = util.promisify(fs.writeFile);
 
 const render = require("./lib/htmlRenderer");
 const { prompt } = require("inquirer");
@@ -122,6 +124,7 @@ function promptCorresponding(employeeAnswers) {
     else {
         //end the segement
         show(arr);
+        render(arr);
     }
 }
 
@@ -138,7 +141,10 @@ function makeEngineer(engineerAnswers){
 }
 
 function show(arr){
-    console.log(arr);
+    // console.log(arr);
+    console.log(render(arr));
+    return writeFileAsync(outputPath, render(arr));
+    
 }
 const arr = [];
 promptManager()
