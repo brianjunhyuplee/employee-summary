@@ -101,6 +101,7 @@ function promptCorresponding(employeeAnswers) {
         promptEngineer()
             .then(function (engineerAnswers) {
                 //do engineer stuff
+                makeEngineer(engineerAnswers);
                 promptEmployee()
                     .then(function (employeeAnswers) {
                         promptCorresponding(employeeAnswers);
@@ -111,6 +112,7 @@ function promptCorresponding(employeeAnswers) {
         promptIntern()
             .then(function (internAnswers) {
                 // do intern stuff
+                makeIntern(internAnswers);
                 promptEmployee()
                     .then(function (employeeAnswers) {
                         promptCorresponding(employeeAnswers);
@@ -119,6 +121,7 @@ function promptCorresponding(employeeAnswers) {
     }
     else {
         //end the segement
+        show(arr);
     }
 }
 
@@ -126,20 +129,25 @@ function makeManager(managerAnswers){
     arr.push(new Manager(managerAnswers.username,managerAnswers.id,managerAnswers.email,managerAnswers.officeNumber));
 }
 
-function makeEngineer(engineerAnswers){
-    arr.push(new Engineer(engineerAnswers.username));
+function makeIntern(internAnswers){
+    arr.push(new Intern(internAnswers.username,internAnswers.id,internAnswers.email,internAnswers.school));
 }
 
+function makeEngineer(engineerAnswers){
+    arr.push(new Engineer(engineerAnswers.username,engineerAnswers.id,engineerAnswers.email,engineerAnswers.github));
+}
+
+function show(arr){
+    console.log(arr);
+}
+const arr = [];
 promptManager()
     .then(function (managerAnswers) {
         //while (true) {
-            const arr = [];
-            makeManager();
-            arr.push(managerAnswers);
+            makeManager(managerAnswers);
             promptEmployee()
                 .then(function (employeeAnswers) {
                     promptCorresponding(employeeAnswers);
-                    render();
                 });
         //}
     });
