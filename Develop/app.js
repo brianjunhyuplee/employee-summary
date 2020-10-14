@@ -122,12 +122,24 @@ function promptCorresponding(employeeAnswers) {
     }
 }
 
+function makeManager(managerAnswers){
+    arr.push(new Manager(managerAnswers.username,managerAnswers.id,managerAnswers.email,managerAnswers.officeNumber));
+}
+
+function makeEngineer(engineerAnswers){
+    arr.push(new Engineer(engineerAnswers.username));
+}
+
 promptManager()
     .then(function (managerAnswers) {
         //while (true) {
+            const arr = [];
+            makeManager();
+            arr.push(managerAnswers);
             promptEmployee()
                 .then(function (employeeAnswers) {
                     promptCorresponding(employeeAnswers);
+                    render();
                 });
         //}
     });
