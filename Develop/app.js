@@ -70,6 +70,30 @@ function promptEngineer(){
         }
     ])
 }
+function promptIntern(){
+    return inquirer.prompt([
+        {
+            type: "input",
+            name: "username",
+            message: "What is your intern's name?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is your intern's id?"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is your intern's email?"
+        },
+        {
+            type: "input",
+            name: "school",
+            message: "What is your intern's school?"
+        }
+    ])
+}
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
