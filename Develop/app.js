@@ -36,7 +36,7 @@ function promptManager() {
     ])
 }
 
-function promptEmployee(){
+function promptEmployee() {
     return inquirer.prompt([
         {
             type: "list",
@@ -47,7 +47,7 @@ function promptEmployee(){
     ])
 }
 
-function promptEngineer(){
+function promptEngineer() {
     return inquirer.prompt([
         {
             type: "input",
@@ -71,7 +71,7 @@ function promptEngineer(){
         }
     ])
 }
-function promptIntern(){
+function promptIntern() {
     return inquirer.prompt([
         {
             type: "input",
@@ -96,30 +96,43 @@ function promptIntern(){
     ])
 }
 
-promptManager()
-    .then(function (managerAnswers){
-        promptEmployee()
-            .then(function(employeeAnswers){
-                if (employeeAnswers.add === "Engineer"){
-                    promptEngineer()
-                        .then(function (engineerAnswers){
-                            //do engineer stuff
-                            return;
-                        });
-                }
-                else if (employeeAnswers.add === "Intern"){
-                    promptIntern()
-                        .then(function (internAnswers){
-                            // do intern stuff
-                            return;
-                        });
-                }
-                else {
-                    //end the segement
-                }
+function promptCorresponding(employeeAnswers) {
+    if (employeeAnswers.add === "Engineer") {
+        promptEngineer()
+            .then(function (engineerAnswers) {
+                //do engineer stuff
+                promptEmployee()
+                    .then(function (employeeAnswers) {
+                        promptCorresponding(employeeAnswers);
+                    });
             });
-    
+    }
+    else if (employeeAnswers.add === "Intern") {
+        promptIntern()
+            .then(function (internAnswers) {
+                // do intern stuff
+                promptEmployee()
+                    .then(function (employeeAnswers) {
+                        promptCorresponding(employeeAnswers);
+                    });
+            });
+    }
+    else {
+        //end the segement
+    }
+}
+
+promptManager()
+    .then(function (managerAnswers) {
+        //while (true) {
+            promptEmployee()
+                .then(function (employeeAnswers) {
+                    promptCorresponding(employeeAnswers);
+                });
+        //}
     });
+
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
